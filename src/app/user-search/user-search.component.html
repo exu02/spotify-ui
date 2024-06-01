@@ -1,0 +1,9 @@
+<p>{{ this.welcomeMsg }}</p>
+<form>
+    <input id="username" type="text" [formControl]="userForm"> <br>
+    <button (click)="onSubmit($event)" id="usersearch" type="button">Submit</button>
+</form>
+
+<ng-container *ngFor="let pl of this.playlists; index as i;">
+   <p>{{ pl.name }}</p>
+</ng-container>
