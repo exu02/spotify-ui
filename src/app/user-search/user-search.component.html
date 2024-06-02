@@ -1,9 +1,18 @@
 <p>{{ this.welcomeMsg }}</p>
-<form>
-    <input id="username" type="text" [formControl]="userForm"> <br>
-    <button (click)="onSubmit($event)" id="usersearch" type="button">Submit</button>
-</form>
+<form class="user-field">
+    <mat-form-field>
+        <mat-label>Spotify Username</mat-label>
+        <input matInput id="username" type="text" [formControl]="userForm">
+    </mat-form-field>
+</form> <br>
+<button mat-stroked-button (click)="onSubmitUser()" type="button">Submit</button> <br><br>
+
 
 <ng-container *ngFor="let pl of this.playlists; index as i;">
-   <p>{{ pl.name }}</p>
+    <a routerLink="/playlist-view">
+        <button mat-raised-button class="playlist-button" (click)="onSelectPlaylist(pl.id)">
+            <img class="playlist-img" src="{{ pl.images[0]['url'] }}" width="50" height="50">
+            <span class="playlist-name">{{ pl.name }}</span>
+        </button><br><br>
+    </a>
 </ng-container>

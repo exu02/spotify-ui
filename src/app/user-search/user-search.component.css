@@ -1,0 +1,19 @@
+.playlist-button {
+    height: 75px !important;
+    width: 500px !important;
+    border-radius: 20px;
+    align-items: center !important;
+}
+
+.playlist-img {
+    position: static;
+    transform: translate(-350%, 0%)
+}
+
+.playlist-name {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-wrap: nowrap;
+}

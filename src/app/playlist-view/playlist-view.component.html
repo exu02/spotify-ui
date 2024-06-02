@@ -1,0 +1,15 @@
+<mat-button-toggle-group class="track-toggles" multiple vertical>
+    <ng-container *ngFor="let tr of this.tracks; index as i;">
+        <mat-button-toggle>
+            <img style="float: right" src="{{ tr.track.album.images[2]['url'] }}" width="50px" height="50px">
+            {{ tr.track.name }}
+        </mat-button-toggle>
+    </ng-container>
+</mat-button-toggle-group>
+
+<!-- <ng-container *ngFor="let tr of this.tracks; index as i;">
+    <div style="display: grid" *ngIf="i%10 == 0"></div>
+    <mat-button-toggle-group multiple>
+        <mat-button-toggle>{{ tr.track.name }}</mat-button-toggle>
+    </mat-button-toggle-group>
+</ng-container> -->
