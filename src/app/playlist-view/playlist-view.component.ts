@@ -4,11 +4,13 @@ import { BackendService, ImageObject, SpotifyTrack } from '../services/backend.s
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SelectionModel } from '@angular/cdk/collections';
+import { MatButtonModule } from '@angular/material/button';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-playlist-view',
   standalone: true,
-  imports: [MatTableModule, MatCheckboxModule],
+  imports: [MatTableModule, MatCheckboxModule, MatButtonModule],
   templateUrl: './playlist-view.component.html',
   styleUrl: './playlist-view.component.css'
 })
@@ -20,18 +22,25 @@ export class PlaylistViewComponent {
   selection = new SelectionModel<SpotifyTrack>(true, [])
   // displayTracks: SpotifyTrack[][] = [];
 
-  constructor(private selectedPlaylistsTracks: SelectedPlaylistsTracksService, private backend: BackendService) {
+  constructor(private selectedPlaylistsTracks: SelectedPlaylistsTracksService, private backend: BackendService, private router: Router) {
     this.playlist_id = selectedPlaylistsTracks.getPlaylistId()
     if (!this.playlist_id) { 
       this.playlist_id = localStorage.getItem("playlist-id");
     }
-    backend.getTracksFromPlaylist(<string>this.playlist_id).subscribe(
-      (response) => {
-        this.tracks = response;
-        console.log(this.tracks)
-        this.dataSource = new MatTableDataSource<SpotifyTrack>(this.tracks)
-      }
-    )
+    this.tracks = JSON.parse(<string>localStorage.getItem(<string>this.playlist_id))
+    if (this.tracks) {
+      this.dataSource = new MatTableDataSource<SpotifyTrack>(this.tracks)
+    }
+    else {
+      backend.getTracksFromPlaylist(<string>this.playlist_id).subscribe(
+        (response) => {
+          this.tracks = response;
+          console.log(this.tracks)
+          this.dataSource = new MatTableDataSource<SpotifyTrack>(this.tracks)
+          localStorage.setItem(<string>this.playlist_id, JSON.stringify(this.tracks))
+        }
+      )
+    }
   }
 
   isAllSelected() {
@@ -49,7 +58,7 @@ export class PlaylistViewComponent {
     this.selection.select(...this.dataSource.data);
   }
 
-  onSelect(row: SpotifyTrack) {
+  onSelectTrack(row: SpotifyTrack) {
     const numSelected = this.selection.selected.length
     if (numSelected < 5) {
       this.selection.toggle(row)
@@ -59,6 +68,25 @@ export class PlaylistViewComponent {
     }
   }
 
+  onClickAnalyze() {
+    // this.selection.selected.forEach(
+    //   (selTrack) => {
+    //     console.log(selTrack.name)
+    //   }
+    // )
+    if (!this.displayedColumns.includes('distance')) {
+      this.displayedColumns.push('distance')
+    }
+
+  }
+
+  resetComponent() {
+    const url = this.router.url
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([url]);
+    });
+  }
+
   checkboxLabel(row?: SpotifyTrack): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
@@ -66,7 +94,4 @@ export class PlaylistViewComponent {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'}`;
   }
 
-  getTracks() {
-    return this.tracks
-  }
 }

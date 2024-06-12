@@ -1,6 +1,16 @@
 mat-button-toggle-group {
     border-radius: 0px;
 }
-.mat-table {
-    width: 50% !important;
+
+.mat-column-select {
+    width: 100px;
+}
+
+p {
+    float: left;
+}
+
+button {
+    float: right;
+    margin-right: 5em;
 }
