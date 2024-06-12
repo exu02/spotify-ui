@@ -10,6 +10,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { SelectedPlaylistsTracksService } from '../services/selected-playlists-tracks.service';
 
+function makeWelcomeMsg(user: string|null): string {
+  var welcomMsg = `Hi ${user}! Select one of your public Spotify playlists below to begin, or switch users here:`
+  return welcomMsg
+} 
+
 @Component({
   selector: 'app-user-search',
   standalone: true,
@@ -20,8 +25,9 @@ import { SelectedPlaylistsTracksService } from '../services/selected-playlists-t
 export class UserSearchComponent {
   value = "";
   user: string|null = "";
-  welcomeMsg: string = ""
-  userForm = new FormControl("")
+  welcomeMsg: string = "";
+  defaultMsg: string = "Hi! Type your Spotify username below to begin:";
+  userForm = new FormControl("");
   playlists: SpotifyPlaylist[]|any;
 
   constructor(private backend: BackendService, private selectedPlaylistsTracks: SelectedPlaylistsTracksService) {
@@ -34,10 +40,11 @@ export class UserSearchComponent {
           console.log("response", this.playlists)
         }
       )
-      this.welcomeMsg = "Hi " + this.user + "! Select one of your public Spotify playlists below to begin, or switch users here:"
+      // this.existingUserMsg = "Hi " + this.user + "! Select one of your public Spotify playlists below to begin, or switch users here:"
+      this.welcomeMsg = makeWelcomeMsg(this.user)
     }
     else {
-      this.welcomeMsg = "Hi! Type your Spotify username below to begin:"
+      this.welcomeMsg = this.defaultMsg
     }
   }
 
@@ -50,10 +57,11 @@ export class UserSearchComponent {
         console.log("response", this.playlists)
       }
     )
+    this.welcomeMsg = makeWelcomeMsg(this.user)
   }
 
-onSelectPlaylist(pl_id: string) {
-  this.selectedPlaylistsTracks.setPlaylistId(pl_id)
-  localStorage.setItem("playlist-id", pl_id)
-}
+  onSelectPlaylist(pl_id: string) {
+    this.selectedPlaylistsTracks.setPlaylistId(pl_id)
+    localStorage.setItem("playlist-id", pl_id)
+  }
 }

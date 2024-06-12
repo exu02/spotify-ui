@@ -2,9 +2,9 @@
 <form class="user-field">
     <mat-form-field>
         <mat-label>Spotify Username</mat-label>
-        <input matInput id="username" type="text" [formControl]="userForm">
+        <input matInput (keydown.enter)="onSubmitUser()" id="username" type="text" [formControl]="userForm">
     </mat-form-field>
-</form> <br>
+</form>
 <button mat-stroked-button (click)="onSubmitUser()" type="button">Submit</button> <br><br>
 
 

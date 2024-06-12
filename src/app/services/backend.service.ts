@@ -30,6 +30,10 @@ export interface SpotifyTrack {
       name: string;
       id: string;
     };
+    artists: {
+      name: string;
+      id: string;
+    }[];
     name: string;
     id: string;
   }
