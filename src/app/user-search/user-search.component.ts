@@ -49,9 +49,12 @@ export class UserSearchComponent {
     }
   }
 
-  onSubmitUser() {
-    localStorage.clear()
+  onSubmitUser(evt: any) {
+    localStorage.clear();
+    evt.preventDefault()
+    
     this.user = this.userForm.value;
+    console.log("user", this.user)
     this.backend.setUser(<string>this.user);
     this.backend.getPlaylists().subscribe(
       (response) => {

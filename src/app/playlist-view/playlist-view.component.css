@@ -3,14 +3,28 @@ mat-button-toggle-group {
 }
 
 .mat-column-select {
-    width: 100px;
+    min-width: 100px !important;
 }
 
 p {
     float: left;
 }
 
+.artist-list {
+    margin-bottom: 0em;
+    margin-top: 0em;
+}
+
 button {
     float: right;
-    margin-right: 5em;
+    margin-right: 3em;
+}
+
+.mat-column-artists {
+    width: 40% !important;
+}
+
+.table-container {
+    min-width: 100%;
+    overflow: auto;
 }

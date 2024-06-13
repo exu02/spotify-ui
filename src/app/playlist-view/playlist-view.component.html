@@ -1,25 +1,26 @@
 <p>Select up to 5 tracks from your playlist to define the vibe you're looking for:</p>
-<button mat-flat-button color="primary" (click)="resetComponent()">Reset Page</button>
+<button mat-flat-button color="accent" (click)="navigateHome()">Go Back</button>
+<button mat-flat-button color="accent" (click)="resetComponent()">Reset Page</button>
 <button mat-flat-button color="primary" (click)="onClickAnalyze()"
                                         [disabled]="selection.selected.length<1">Analyze Playlist</button>
 <div class="table-container">
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" [bgColor]="'primary'">
-        <ng-container matColumnDef="select">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+        <ng-container matColumnDef="select" sticky>
             <th mat-header-cell *matHeaderCellDef>
                 <mat-checkbox (change)="$event ? toggleAllRows() : null"
-                            [indeterminate]="selection.hasValue()"
-                            [checked]="selection.selected.length!=0"
-                            [disabled]="selection.selected.length==0"
-                            [aria-label]="checkboxLabel()">
+                              [indeterminate]="selection.hasValue()"
+                              [checked]="selection.selected.length!=0"
+                              [disabled]="selection.selected.length==0"
+                              [aria-label]="checkboxLabel()">
                 </mat-checkbox>
                 {{ selection.selected.length }}/5
             </th>
             <td mat-cell *matCellDef="let row">
                 <mat-checkbox (click)="$event.stopPropagation()"
-                            (change)="$event ? onSelectTrack(row) : null"
-                            [checked]="selection.isSelected(row)"
-                            [aria-label]="checkboxLabel(row)"
-                            [disabled]="selection.selected.length >= 5 && !selection.isSelected(row)">
+                              (change)="$event ? onSelectTrack(row) : null"
+                              [checked]="selection.isSelected(row)"
+                              [aria-label]="checkboxLabel(row)"
+                              [disabled]="selection.selected.length >= 5 && !selection.isSelected(row)">
                 </mat-checkbox>
             </td>
         </ng-container>
@@ -35,11 +36,16 @@
         </ng-container>
         <ng-container matColumnDef="artists">
             <th mat-header-cell *matHeaderCellDef>Artists</th>
-            <td mat-cell *matCellDef="let element">{{ element.artists[0].name }}</td>
+            <td mat-cell *matCellDef="let element">
+                <div *ngFor="let artist of element.artists; let last = last">
+                    <p class="artist-list" *ngIf="!last">{{ artist.name + "," + " &nbsp;" }}</p>
+                    <p class="artist-list" *ngIf="last">{{ artist.name }}</p>
+                </div>
+            </td>
         </ng-container>
-        <ng-container matColumnDef="distance">
-            <th mat-header-cell *matHeaderCellDef>Un-vibe-ness</th>
-            <td mat-cell *matCellDef="let element">{{ element.distance }}</td>
+        <ng-container matColumnDef="similarity">
+            <th mat-header-cell mat-sort-header matSortStart="desc" *matHeaderCellDef>Vibe Match</th>
+            <td mat-cell *matCellDef="let element">{{ element.similarity }}</td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
