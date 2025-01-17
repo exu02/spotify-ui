@@ -23,50 +23,50 @@ function makeWelcomeMsg(user: string|null): string {
   styleUrl: './user-search.component.css'
 })
 export class UserSearchComponent {
-  value = "";
-  user: string|null = "";
-  welcomeMsg: string = "";
-  defaultMsg: string = "Hi! Type your Spotify username below to begin:";
-  userForm = new FormControl("");
-  playlists: SpotifyPlaylist[]|any;
+  // value = "";
+  // user: string|null = "";
+  // welcomeMsg: string = "";
+  // defaultMsg: string = "Hi! Type your Spotify username below to begin:";
+  // userForm = new FormControl("");
+  // playlists: SpotifyPlaylist[]|any;
 
   constructor(private backend: BackendService, private selectedPlaylistsTracks: SelectedPlaylistsTracksService) {
-    this.user = localStorage.getItem("spotify-username")
-    this.playlists = JSON.parse(<string>localStorage.getItem('playlists'))
-    if (this.user && this.playlists) {
-      this.backend.setUser(<string>this.user);
-      this.backend.getPlaylists().subscribe(
-        (response) => {
-          this.playlists = response
-          console.log("response", this.playlists)
-        }
-      )
-      // this.existingUserMsg = "Hi " + this.user + "! Select one of your public Spotify playlists below to begin, or switch users here:"
-      this.welcomeMsg = makeWelcomeMsg(this.user)
-    }
-    else {
-      this.welcomeMsg = this.defaultMsg
-    }
+    // this.user = localStorage.getItem("spotify-username")
+    // this.playlists = JSON.parse(<string>localStorage.getItem('playlists'))
+    // if (this.user && this.playlists) {
+    //   this.backend.setUser(<string>this.user);
+    //   this.backend.getPlaylists().subscribe(
+    //     (response) => {
+    //       this.playlists = response
+    //       console.log("response", this.playlists)
+    //     }
+    //   )
+    //   // this.existingUserMsg = "Hi " + this.user + "! Select one of your public Spotify playlists below to begin, or switch users here:"
+    //   this.welcomeMsg = makeWelcomeMsg(this.user)
+    // }
+    // else {
+    //   this.welcomeMsg = this.defaultMsg
+    // }
   }
 
   onSubmitUser(evt: any) {
-    localStorage.clear();
-    evt.preventDefault()
+    // localStorage.clear();
+    // evt.preventDefault()
     
-    this.user = this.userForm.value;
-    console.log("user", this.user)
-    this.backend.setUser(<string>this.user);
-    this.backend.getPlaylists().subscribe(
-      (response) => {
-        this.playlists = response
-        localStorage.setItem("playlists", JSON.stringify(this.playlists))
-      }
-    )
-    this.welcomeMsg = makeWelcomeMsg(this.user)
+    // this.user = this.userForm.value;
+    // console.log("user", this.user)
+    // this.backend.setUser(<string>this.user);
+    // this.backend.getPlaylists().subscribe(
+    //   (response) => {
+    //     this.playlists = response
+    //     localStorage.setItem("playlists", JSON.stringify(this.playlists))
+    //   }
+    // )
+    // this.welcomeMsg = makeWelcomeMsg(this.user)
   }
 
   onSelectPlaylist(pl_id: string) {
-    this.selectedPlaylistsTracks.setPlaylistId(pl_id)
-    localStorage.setItem("playlist-id", pl_id)
+  //   this.selectedPlaylistsTracks.setPlaylistId(pl_id)
+  //   localStorage.setItem("playlist-id", pl_id)
   }
 }
