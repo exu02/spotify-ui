@@ -2,10 +2,10 @@
 <form class="user-field">
     <mat-form-field>
         <mat-label>Spotify Username</mat-label>
-        <input matInput (keydown.enter)="onSubmitUser()" id="username" type="text" [formControl]="userForm">
+        <input matInput (keydown.enter)="onSubmitUser($event)" id="username" type="text" [formControl]="userForm">
     </mat-form-field>
 </form>
-<button mat-stroked-button (click)="onSubmitUser()" type="button">Submit</button> <br><br>
+<button mat-stroked-button (click)="onSubmitUser($event)" type="button">Submit</button> <br><br>
 
 
 <ng-container *ngFor="let pl of this.playlists; index as i;">

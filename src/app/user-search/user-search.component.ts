@@ -32,7 +32,8 @@ export class UserSearchComponent {
 
   constructor(private backend: BackendService, private selectedPlaylistsTracks: SelectedPlaylistsTracksService) {
     this.user = localStorage.getItem("spotify-username")
-    if (this.user) {
+    this.playlists = JSON.parse(<string>localStorage.getItem('playlists'))
+    if (this.user && this.playlists) {
       this.backend.setUser(<string>this.user);
       this.backend.getPlaylists().subscribe(
         (response) => {
@@ -48,13 +49,17 @@ export class UserSearchComponent {
     }
   }
 
-  onSubmitUser() {
+  onSubmitUser(evt: any) {
+    localStorage.clear();
+    evt.preventDefault()
+    
     this.user = this.userForm.value;
+    console.log("user", this.user)
     this.backend.setUser(<string>this.user);
     this.backend.getPlaylists().subscribe(
       (response) => {
         this.playlists = response
-        console.log("response", this.playlists)
+        localStorage.setItem("playlists", JSON.stringify(this.playlists))
       }
     )
     this.welcomeMsg = makeWelcomeMsg(this.user)
