@@ -36,19 +36,18 @@ export interface SpotifyPlaylist {
 }
 
 export interface SpotifyTrack {
-  track: {
-    album: {
-      images: ImageObject[];
-      name: string;
-      id: string;
-    };
-    artists: {
-      name: string;
-      id: string;
-    }[];
+  album: {
+    images: ImageObject[];
     name: string;
     id: string;
-  }
+  };
+  artists: {
+    name: string;
+    id: string;
+  }[];
+  name: string;
+  id: string;
+  similarity: number;
 }
 
 @Injectable({
@@ -111,5 +110,15 @@ export class BackendService {
     let headers = new HttpHeaders({ "Content-Type": "application/json" });
     let body = {"playlist_id": pl_id};
     return this.http.post<SpotifyTrack[]>(url, body, { headers });
+  }
+
+  getPlaylistAnalysis(selectedTracks: SpotifyTrack[], playlistTracks: SpotifyTrack[]) {
+    let url = this.baseUrl + "analyzePlaylist"
+    let headers = new HttpHeaders({ "Content-Type": "application/json" })
+    let body = {
+      "selected_tracks": selectedTracks,
+      "playlist_tracks": playlistTracks
+    }
+    return this.http.post<SpotifyTrack[]>(url, body, { headers })
   }
 }
